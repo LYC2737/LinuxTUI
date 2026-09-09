@@ -97,7 +97,8 @@ case $MENU in
                                 break
                         done
 		;;
-	"4")
+	"4")	# EXIT 설정
+		exit 0
 		;;
 esac
 
