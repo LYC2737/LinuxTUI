@@ -39,7 +39,11 @@ case $MENU in
 		# $TEMP로 받은 내용 화면에 출력하기
 		whiptail --title="System Info" --scrolltext --textbox "$TEMP" 30 100	
 		;;
-	"2")
+	"2")	# Error Log 출력
+		journalctl -p 3 > $TEMP
+		
+		# 에러로그 화면출력
+		whiptail --title="Error Log" --scrolltext --textbox "$TEMP" 30 100	
 		;;
 
 	"3")
