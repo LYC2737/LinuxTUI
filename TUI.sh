@@ -46,7 +46,56 @@ case $MENU in
 		whiptail --title="Error Log" --scrolltext --textbox "$TEMP" 30 100	
 		;;
 
-	"3")
+	"3")	# Srvice 내용
+		# while로 루프 만들기2(마지막에 break넣어서 빠져나가게끔 작업할 것)
+                        while true; do
+                                # SVC 선언(checklist로 원하는 서비스 선택하게끔, 파일에서 목록 불러오는 식으로 확장할 것)
+                                SVC=$(whiptail --title "Service Choose" --checklist "select services" 10 40 4\
+                                "sshd" "SSH Daemon" OFF\
+                                "httpd" "Apache Daemon" OFF\
+                                "chronyd" "NTP Daemon" OFF\
+                                "firewalld" "Firewall Daemon" OFF 3>&1 1>&2 2>&3)
+                                # 서비스 선택이 정상 완료되지 않았을 때의 처리(경고장 출력 및 초기화면으로 돌아가기)
+                                STATUS=$?
+                                if [ $STATUS -ne 0 ] || [ -z "$SVC" ]; then
+                                        whiptail --title "Warning" --msgbox "취소 하셨거나 서비스 선택하지 않으셨습니다 메뉴로 돌아갑니다" 10 40
+                                        break
+                                fi
+                                # 서비스 활성상태 확인
+                                whiptail --title "Service Status" --yesno "서비스활성화 유무 확인하시겠습니까?" 10 40
+                                # if로 분기처리
+                                if [ $? -ne 0 ]; then
+                                        # 경고창 출력 및 초기화면 돌아가기
+                                        whiptail --title "Warning" --msgbox "서비스 화면으로 돌아가기" 10 40
+                                        continue
+                                fi
+                                > $TEMP #변수초기화
+                                # for문으로 정보 수집
+                                for i in $(echo "$SVC"|sed 's/"//g'); do
+                                        echo "${i}: $(systemctl is-active $i)"|tr '[a-z]' '[A-Z]' >> $TEMP
+                                done
+                                # 서비스 활성상태 출력
+                                whiptail --title "Service Active" --textbox "$TEMP" 10 40
+                                # 추가) 서비스 STATUS 확인 
+                                whiptail --title "Service Status" --yesno "서비스 상태정보 확인하시겠습니까?" 10 40
+                                # if로 분기(NO일경우 break로 넘겨서 프로그램 종료)
+                                if [ $? -ne 0 ]; then
+                                        whiptail --title "Warning" --msgbox "프로그램 종료" 10 40
+                                        clear
+                                        echo "프로그램 종료"
+                                        exit 0  # 정상종료
+                                fi
+                                # 서비스STATUS 확인 및 저장
+                                > $TEMP
+                                for i in $(echo "$SVC"|sed 's/"//g'); do
+                                        echo "=== $i status ===" | tr '[a-z]' '[A-Z]' >> $TEMP
+                                        systemctl status $i >> $TEMP 2>&1
+                                        printf "\n\n" >> $TEMP
+                                done
+                                # 서비스 Status 화면출력
+                                whiptail --title "Service Status" --scrolltext --textbox "$TEMP" 30 120
+                                break
+                        done
 		;;
 	"4")
 		;;
