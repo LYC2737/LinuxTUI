@@ -13,7 +13,8 @@
 ## 사용방법
 ```bash
 # 1. git clone
-git clone git@github.com:LYC2737/LinuxTUI.git
+# git clone git@github.com:LYC2737/LinuxTUI.git
+git clone https://github.com/LYC2737/LinuxTUI.git
 
 # 2. 디렉토리 이동
 cd LinuxTUI
