@@ -21,7 +21,7 @@ GitHub Release에 배포된 `.rpm` 파일로 의존성 패키지와 함께 한 �
 
 ```bash
 # 1. RPM 패키지 다운로드 및 설치
-sudo dnf install -y [https://github.com/LYC2737/LinuxTUI/releases/download/v1.0.0/sysmenu-1.0-1.el9.noarch.rpm](https://github.com/LYC2737/LinuxTUI/releases/download/v1.0.0/sysmenu-1.0-1.el9.noarch.rpm)
+sudo dnf install -y https://github.com/LYC2737/LinuxTUI/releases/download/v1.0.0/sysmenu-1.0-1.el9.noarch.rpm
 
 # 2. 어디서나 명령어 입력으로 실행
 sysmenu
@@ -30,7 +30,7 @@ sysmenu
 ### 방법 2. 소스 코드 직접 실행
 ```bash
 # 1. 저장소 클론 및 디렉토리 이동
-git clone [https://github.com/LYC2737/LinuxTUI.git](https://github.com/LYC2737/LinuxTUI.git)
+git clone https://github.com/LYC2737/LinuxTUI.git
 cd LinuxTUI
 
 # 2. 실행 권한 부여
